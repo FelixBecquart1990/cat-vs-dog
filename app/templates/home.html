@@ -1,0 +1,66 @@
+{% extends "base.html" %} {% block content %}
+<div style="margin-top:50px">
+  <img class="mb-4" src="static/images/coderschool-logo.png" alt="" />
+  <div></div>
+  {% if feedback %}
+  <div class="alert alert-success fade show" role="alert" style="margin:20px 100px">
+    <strong>Thank you for your feedback!</strong> Our model will be improved soon.
+  </div>
+  {% endif%}
+
+
+  {% if probability %}
+  <div style="margin-bottom:60px;" class="animated bounce animation-duration: 1s;">  
+    {% if probability.cat %}
+    <img src="static/images/cat.png" alt="">
+    
+    <div class="category">{{probability.cat}}%</div class="category">
+    {% else %}
+    <img src="static/images/dog.png" alt="">
+
+    <div class="category">{{probability.dog}}%</div>
+    {% endif %}
+  </div>
+  <form action="/" method="POST" enctype="multipart/form-data">
+    <input name="text" value="{{filename}}" class="d-none">
+    <input type="submit" class="wrong" value="Wrong answer?" id="snd" style="opacity: 0.5;margin-top:30px; border: none;
+    background: transparent;
+    border-bottom: 1px solid #fff;
+    outline: none;"/>
+  </form>
+
+  
+  {% endif%}
+
+
+  {% if filename %}
+
+
+  <img
+    class="pred_img"
+    style="max-height:200px; margin:50px; border-radius: 5px"
+    src="{{ url_for('uploader.send_file', filename=filename)}}"
+  />
+
+  {% else %}
+  <img
+    id="catOrDog"
+    src="static/images/catordog.jpg"
+    alt="cat or dog"
+    style="max-height:360px; margin:50px; border-radius: 5px"
+  />
+
+  {% endif %}
+
+  <form action="/uploader" method="POST" enctype="multipart/form-data">
+    <input type="file" id="file" name="file" />
+    <div class="new_Btn" style="width: 180px;">
+      <div class="text-select">Select a picture</div> 
+      <div class="spinner-border text-light d-none" role="status">
+        <span class="sr-only">Loading...</span>
+      </div></div>
+    </div>
+    <input type="submit" class="button" value="Send" id="send" />
+  </form>
+</div>
+{% endblock %}
